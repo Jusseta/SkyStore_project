@@ -1,0 +1,29 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Phone",
+      "description": "electronic equipment",
+      "created_at": null
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Car",
+      "description": null,
+      "created_at": null
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Subscription",
+      "description": "an amount of money that you pay regularly to receive a product or service",
+      "created_at": null
+    }
+  }
+]
