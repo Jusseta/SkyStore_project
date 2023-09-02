@@ -30,7 +30,13 @@ def flowers(request, pk):
 
 
 def flower_page(request, pk):
+    product_item = Product.objects.get(pk=pk)
     context = {
         'object_list': Product.objects.filter(category_id=pk),
+        'title': product_item.name,
+        'description': f'Описание сорта: {product_item.description}',
+        'category': f'Относится к виду {product_item.category}',
+        'price': product_item.price,
+        'created_at': f'Дата создания {product_item.created_at}'
     }
     return render(request, 'catalog/flower_page.html', context)

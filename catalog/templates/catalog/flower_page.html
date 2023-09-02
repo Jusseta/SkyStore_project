@@ -2,22 +2,23 @@
 {% load my_tags %}
 
 {% block content %}
-<div id="msProduct" class="shop-single-page" itemscope itemtype="http://schema.org/Product">
+
+<div id="msProduct" class="shop-single-page">
     <div class="container">
         <div class="shop-single-title-container">
-            <h1 itemprop="name" class="title">Название</h1>
-            <div class="rating rating_active desktop-rating" itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating" itemscope>
+            <h1 itemprop="name" class="title">{{ title }}</h1>
+            <div class="rating rating_active desktop-rating" itemprop="aggregateRating" >
 </div>        </div>
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-8 mid-col-lg-6">
-                <img src="{{ object.preview|mymedia }}" class="rounded mx-auto d-block" alt="Card image cap">
+            <img src="{{ object.preview|mymedia }}" class="rounded mx-auto d-block" alt="Card image cap">
 
 <div class="row justify-content-center msoptionsprice-gallery" id="msGallery">
     <div class="col-lg-2 swiper-container swiper-thumb">
         <div class="swiper-thumb-prev"><i class="fa fa-angle-left"></i></div>
         <div class="swiper-thumb-next"><i class="fa fa-angle-right"></i></div>
 
-        <div class="cart-thumb shop-single-thumb-image shop-thumb-active"  1>
+        <div class="cart-thumb shop-single-thumb-image shop-thumb-active"1>
             <div class="swiper-wrapper">
                                     <div class="product-miniature product-miniature_active swiper-slide">
                         <img src="/assets/cache_image/products/359/507a0a45-36e9-4a39-9b3d-aa9fc175706d_185x185_56b.webp" alt="" class="product-miniature__img">
@@ -28,8 +29,6 @@
     <div class=" col-lg-10 swiper-container">
             <div class="swiper-thumb-prev-mob"><i class="fa fa-angle-left"></i></div>
             <div class="swiper-thumb-next-mob"><i class="fa fa-angle-right"></i></div>
-
-
 
         <div class="swiper-wrapper">
                             <div class="swiper-slide" data-rid="359" data-iid="113">
@@ -50,28 +49,17 @@
                             <meta itemprop="mpn" content="LB-" />
                             <meta itemprop="sku" content="250359" />
                             <input type="hidden" name="id" value="359"/>
-                            <div itemprop="brand" itemtype="https://schema.org/Brand" itemscope>
-                               <meta itemprop="name" content="Салон цветов «Маргаритка»" />
-                           </div>
 
                             <div class="thumb-price product-action mid-shop-checkout" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                                <meta itemprop="availability" content="https://schema.org/InStock" />
                                 <meta itemprop="priceCurrency" content="RUB" />
-                                <meta itemprop="itemCondition" content="https://schema.org/UsedCondition" />
-                                <meta itemprop="priceValidUntil" content="2023-12-31" />
-                                <meta itemprop="price" content="2300" />
+                                <meta itemprop="price" content="12344" />
                                 <div class="flex align-items-center">
-                                    <span class="current-price-main current-price msoptionsprice-cost msoptionsprice-359">2 300</span><span class="current-price" > ₽</span>
-
+                                    <span class="current-price-main current-price msoptionsprice-cost msoptionsprice-359">{{ price }}</span><span class="current-price" > ₽</span>
 
                                 </div>
                                 <div class="msFavoriterToggle wishlist-action action " data-id="359" data-bs-tooltip="tooltip" data-bs-placement="left" title="Добавить в избранное"><a><i class="fa fa-heart"></i></a></div>
                             </div>
-
-                            <link itemprop="image" href="https://flowers-artem.ru/assets/cache_image/products/359/507a0a45-36e9-4a39-9b3d-aa9fc175706d_278x278_51e.jpg" />
-
                             <div></div>
-
 
                             <div class="product-quantity d-flex flex-wrap align-items-center mid-shop-checkout">
                                       <div class="product-action d-flex flex-wrap">
@@ -82,8 +70,10 @@
                             </div>
 
                             <div class="description mid-checkout-content">
-                                <p itemprop="description">Монобукет роз, напоминающих крем-брюле, растопит сердце любой дамы!</p>
+                                <p itemprop="description">{{ category }} <br> {{ description }}</p>
+                                <p><small class="text-body-secondary fw-light">{{ created_at }}</small></p>
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>
