@@ -23,7 +23,7 @@
               <ul class="list-unstyled mt-3 mb-4">
                 <li>{{ object.description }}</li>
               </ul>
-              <button type="button" class="w-100 btn btn-lg btn-primary">Подробнее</button>
+              <a href='{% url "catalog:flower_page" object.pk %}' type="button" class="w-100 btn btn-lg btn-primary">Подробнее</a>
             </div>
           </div>
         </div>
