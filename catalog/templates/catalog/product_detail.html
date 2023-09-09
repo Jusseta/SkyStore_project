@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <img src="{{ object.preview|mymedia }}" class="leftpic" alt="Card image cap" width="450" height="350">
+        </div>
+        <div class="col">
+            <h3> {{ object.price }} ₽<small class="text-body-secondary fw-light">/шт</small></h3>
+            <br> <button class="btn btn-success">Купить</button>
+            <div class="description mid-checkout-content">
+            <br> <p itemprop="description">Описание: {{ object.category }} <br> {{ object.description }}</p>
+                 <p>Просмотры: {{ object.views_count }}</p>
+
+            <br> <p><small class="text-body-secondary fw-light">{{ object.created_at }}</small></p>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-outline-warning">Изменить</button>
+            <button type="button" class="btn btn-outline-danger">Удалить</button>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

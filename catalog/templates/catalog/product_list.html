@@ -16,7 +16,7 @@
         <div class="col">
           <div class="card mb-4 rounded-3 shadow-sm">
             <div class="card-header py-3">
-              <h4 class="my-0 fw-normal">{{ object.name|title }}</h4>
+              <h4 class="my-0 fw-normal">{{ object.name }}</h4>
             </div>
             <img src="{{ object.preview|mymedia }}" class="rounded mx-auto d-block" alt="Card image cap" width="300" height="250">
             <div class="card-body">
@@ -24,7 +24,7 @@
                 <h2 class="card-title pricing-card-title">{{ object.price }} ₽<small class="text-body-secondary fw-light">/шт</small></h2>
                 <li>{{ object.description }}</li>
               </ul>
-              <a href='{% url "catalog:flower_page" object.pk %}' type="button" class="w-100 btn btn-lg btn-primary">Подробнее</a>
+              <a href='{% url "catalog:flower_detail" object.pk %}' type="button" class="w-100 btn btn-lg btn-primary">Подробнее</a>
             </div>
           </div>
         </div>
