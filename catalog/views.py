@@ -1,43 +1,120 @@
+from pytils.translit import slugify
 from django.shortcuts import render
-from catalog.models import Category, Product
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from catalog.models import Category, Product, Blog
 
 
-def home(request):
-    context = {
-        'object_list': Category.objects.all()
-    }
-    return render(request, 'catalog/home.html', context)
+class HomeView(TemplateView):
+    template_name = 'catalog/home.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['object_list'] = Category.objects.all()[:3]
+        return context_data
 
 
 def contacts(request):
     return render(request, 'catalog/contacts.html')
 
 
-def kinds(request):
-    context = {
-        'object_list': Product.objects.all()
-    }
-    return render(request, 'catalog/kinds.html', context)
+class CategoryListView(ListView):
+    model = Category
+    extra_context = {'title': 'Все виды цветов'}
 
 
-def flowers(request, pk):
-    category_item = Category.objects.get(pk=pk)
-    context = {
-        'object_list': Product.objects.filter(category_id=pk),
-        'title': f'Цветы сорта {category_item.name}'
-    }
-    return render(request, 'catalog/kinds.html', context)
+class ProductListView(ListView):
+    model = Product
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(category_id=self.kwargs.get('pk'))
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+
+        category_item = Category.objects.get(pk=self.kwargs.get('pk'))
+        context_data['category_pk'] = category_item.pk,
+        context_data['title'] = f'Цветы сорта {category_item.name}'
+        return context_data
 
 
-def flower_page(request, pk):
-    product_item = Product.objects.get(pk=pk)
-    context = {
-        'object_list': Product.objects.filter(category_id=pk),
-        'object': product_item,
-        'title': product_item.name,
-        'description': f'Описание сорта: {product_item.description}',
-        'category': f'Относится к виду {product_item.category}',
-        'price': product_item.price,
-        'created_at': f'Дата создания {product_item.created_at}'
-    }
-    return render(request, 'catalog/flower_page.html', context)
+class ProductsDetailView(DetailView):
+    model = Product
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = context_data['object']
+        return context_data
+
+
+class BlogListView(ListView):
+    model = Blog
+    extra_context = {'title': 'Блог'}
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_published=True)
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        all_products = Product.objects.all()
+        context['all_product_list'] = all_products
+        return context
+
+
+class BlogDetailView(DetailView):
+    model = Blog
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = context_data['object']
+        return context_data
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.views_count += 1
+        self.object.save()
+        return self.object
+
+
+class BlogCreateView(CreateView):
+    model = Blog
+    fields = ('title', 'content', 'is_published',)
+    success_url = reverse_lazy('catalog:blogs')
+    extra_context = {'heading': 'Создание статьи'}
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_mat = form.save()
+            new_mat.slug = slugify(new_mat.title)
+            new_mat.save()
+        return super().form_valid(form)
+
+
+class BlogUpdateView(UpdateView):
+    model = Blog
+    fields = ('title', 'content', 'is_published',)
+    success_url = reverse_lazy('catalog:blogs')
+    extra_context = {'heading': 'Изменение статьи'}
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        all_product = Product.objects.all()
+        context['all_product_list'] = all_product
+        context['title'] = context['object']
+        return context
+
+
+class BlogDeleteView(DeleteView):
+    model = Blog
+    success_url = reverse_lazy('catalog:blogs')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        all_products = Product.objects.all()
+        context['all_product_list'] = all_products
+        context['title'] = context['object']
+        return context
