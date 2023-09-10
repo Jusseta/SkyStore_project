@@ -97,7 +97,6 @@ class BlogCreateView(CreateView):
 class BlogUpdateView(UpdateView):
     model = Blog
     fields = ('title', 'content', 'is_published',)
-    success_url = reverse_lazy('catalog:blogs')
     extra_context = {'heading': 'Изменение статьи'}
 
     def get_context_data(self, *args, **kwargs):
@@ -106,6 +105,9 @@ class BlogUpdateView(UpdateView):
         context['all_product_list'] = all_product
         context['title'] = context['object']
         return context
+
+    def get_success_url(self):
+        return reverse_lazy('catalog:blog_detail', args=(self.object.id,))
 
 
 class BlogDeleteView(DeleteView):
