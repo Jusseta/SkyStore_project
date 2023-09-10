@@ -14,8 +14,8 @@
       <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         {% for object in object_list %}
         <div class="col">
-          <div class="card mb-4 rounded-3 shadow-sm">
-            <div class="card-header py-3">
+          <div class="card mb-4 rounded-3 shadow-sm" style="width: 400px; height: 500px">
+            <div class="card-header py-3" style="width: 400px; height: 100px">
               <h4 class="my-0 fw-normal">{{ object.name }}</h4>
             </div>
             <img src="{{ object.preview|mymedia }}" class="rounded mx-auto d-block" alt="Card image cap" width="300" height="250">
