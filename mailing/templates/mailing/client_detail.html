@@ -1,0 +1,18 @@
+{% extends 'catalog/base.html' %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="description mid-checkout-content">
+            <br><p itemprop="description">Клиент: {{ object.full_name }}</p><br>
+                 <p>Email: {{ object.email }}</p><br>
+                 <p>Комментарий: {{ object.message }}</p>
+        </div>
+        <div class="col">
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

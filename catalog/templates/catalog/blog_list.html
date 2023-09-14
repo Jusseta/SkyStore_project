@@ -13,6 +13,7 @@
 {% block content %}
       <div class="col-12 mb-5">
         <a href="{%  url 'catalog:add_blog' %}" class="btn btn-outline-primary">Добавить статью</a>
+        <a href="{%  url 'mailing:create_client' %}" class="btn btn-outline-success">Подписаться на рассылку</a>
       </div>
       <div class="row row-cols-1 row-cols-md-3 mb-3 text-center d-flex align-items-stretch">
         {% for object in object_list %}
