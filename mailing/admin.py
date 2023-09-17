@@ -10,7 +10,8 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'theme', 'body', 'time', 'frequency', 'status',)
+    list_display = ('pk', 'theme', 'body', 'frequency', 'status',)
+    readonly_fields = ['time']
     search_fields = ('theme',)
 
 

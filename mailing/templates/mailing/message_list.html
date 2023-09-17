@@ -11,8 +11,8 @@
 
 {% block content %}
 <div class="col-12 mb-5">
-        <a href="{%  url 'mailing:create_client' %}" class="btn btn-outline-success">Добавить клиента</a>
-        <a href="{%  url 'mailing:mail_list' %}" class="btn btn-outline-success">Список рассылок</a>
+        <a href="{%  url 'mailing:clients' %}" class="btn btn-outline-success">Список клиентов</a>
+        <a href="{%  url 'mailing:create_mail' %}" class="btn btn-outline-success">Добавить рассылку</a>
         <a href="{%  url 'mailing:mail_logs' %}" class="btn btn-outline-success">Просмотр логов</a>
       </div>
       <div class="row row-cols-1 row-cols-md-3 mb-3 text-center d-flex align-items-stretch">
@@ -20,16 +20,13 @@
         <div class="col">
           <div class="card mb-4 rounded-3 shadow-sm">
             <div class="card-header py-3">
-              <h4 class="my-0 fw-normal">{{ object.full_name }}</h4>
+              <h4 class="my-0 fw-normal">{{ object.theme }}</h4>
             </div>
             <div class="card-body">
-              <p>{{ object.email }}</p>
+              <p>{{ object.body }}</p>
+              <p>{{ object.status }}</p>
                 <div class="btn-group">
-                <a href='{% url "mailing:client_detail" object.pk %}' type="button"
-                   class="btn btn-outline-primary">Подробнее</a>
-                <a href='{% url "mailing:client_update" object.pk %}' type="button"
-                   class="btn btn-outline-warning">Изменить</a>
-                <a href='{% url "mailing:delete_client" object.pk %}' type="button"
+                <a href='{% url "mailing:mail_delete" object.pk %}' type="button"
                    class="btn btn-outline-danger">Удалить</a>
             </div>
 

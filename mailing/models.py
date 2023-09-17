@@ -1,10 +1,14 @@
+from datetime import datetime
+
 from django.db import models
+from django.utils import timezone
 
 
 NULLABLE = {'blank': True, 'null': True}
 
 
 class Client(models.Model):
+    """Модель клиента"""
     full_name = models.CharField(max_length=150, verbose_name='ФИО')
     email = models.EmailField(max_length=150, verbose_name='Почта')
     message = models.TextField(verbose_name='Комментарий', **NULLABLE)
@@ -18,6 +22,7 @@ class Client(models.Model):
 
 
 class Message(models.Model):
+    """Модель сообщения для рассылки"""
     frequency_list = [
         ('day', 'раз в день'),
         ('week', 'раз в неделю'),
@@ -32,9 +37,9 @@ class Message(models.Model):
 
     theme = models.CharField(max_length=100, verbose_name='Тема письма')
     body = models.TextField(verbose_name='Тело письма')
-    time = models.TimeField(auto_now_add=True, verbose_name='Время рассылки', **NULLABLE)
-    frequency = models.CharField(choices=frequency_list, verbose_name='Периодичность', **NULLABLE)
-    status = models.CharField(choices=status_list, verbose_name='Статус', **NULLABLE)
+    time = models.DateTimeField(default=datetime.now, verbose_name='Время рассылки')
+    frequency = models.CharField(choices=frequency_list, default='day', verbose_name='Периодичность')
+    status = models.CharField(choices=status_list, default='create', verbose_name='Статус')
 
     def __str__(self):
         return self.theme
@@ -45,9 +50,10 @@ class Message(models.Model):
 
 
 class MailingLogs(models.Model):
+    """Модель логов рассылки"""
     status_list = [
-        ('Success', 'успешно'),
-        ('Failure', 'отказ')
+        ('success', 'успешно'),
+        ('failure', 'отказ')
     ]
 
     last_try = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время отправки')

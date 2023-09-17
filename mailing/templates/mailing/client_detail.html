@@ -11,6 +11,12 @@
                  <p>Комментарий: {{ object.message }}</p>
         </div>
         <div class="col">
+            <div class="btn-group">
+                <a href='{% url "mailing:client_update" object.pk %}' type="button"
+                   class="btn btn-outline-warning">Изменить</a>
+                <a href='{% url "mailing:delete_client" object.pk %}' type="button"
+                   class="btn btn-outline-danger">Удалить</a>
+            </div>
         </div>
       </div>
     </div>
