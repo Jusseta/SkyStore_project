@@ -6,6 +6,7 @@ from catalog.models import Category, Product, Blog
 
 
 class HomeView(TemplateView):
+    """Домашняя страница"""
     template_name = 'catalog/home.html'
 
     def get_context_data(self, **kwargs):
@@ -15,15 +16,18 @@ class HomeView(TemplateView):
 
 
 def contacts(request):
+    """Страница контактов"""
     return render(request, 'catalog/contacts.html')
 
 
 class CategoryListView(ListView):
+    """Страница со списком категорий"""
     model = Category
     extra_context = {'title': 'Все виды цветов'}
 
 
 class ProductListView(ListView):
+    """Страница со списком продуктов по категориям"""
     model = Product
 
     def get_queryset(self):
@@ -41,6 +45,7 @@ class ProductListView(ListView):
 
 
 class ProductsDetailView(DetailView):
+    """Страница продукта"""
     model = Product
 
     def get_context_data(self, *args, **kwargs):
@@ -50,6 +55,7 @@ class ProductsDetailView(DetailView):
 
 
 class BlogListView(ListView):
+    """Страница со списком статей блога"""
     model = Blog
     extra_context = {'title': 'Блог'}
 
@@ -66,6 +72,7 @@ class BlogListView(ListView):
 
 
 class BlogDetailView(DetailView):
+    """Страница статьи"""
     model = Blog
 
     def get_context_data(self, *args, **kwargs):
@@ -81,6 +88,7 @@ class BlogDetailView(DetailView):
 
 
 class BlogCreateView(CreateView):
+    """Создание новой статьи"""
     model = Blog
     fields = ('title', 'content', 'is_published',)
     success_url = reverse_lazy('catalog:blogs')
@@ -95,6 +103,7 @@ class BlogCreateView(CreateView):
 
 
 class BlogUpdateView(UpdateView):
+    """Изменение существующей статьи"""
     model = Blog
     fields = ('title', 'content', 'is_published',)
     extra_context = {'heading': 'Изменение статьи'}
@@ -111,6 +120,7 @@ class BlogUpdateView(UpdateView):
 
 
 class BlogDeleteView(DeleteView):
+    """Удаление статьи"""
     model = Blog
     success_url = reverse_lazy('catalog:blogs')
 

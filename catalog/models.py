@@ -5,6 +5,7 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 class Category(models.Model):
+    """Модель категории"""
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(max_length=300, **NULLABLE, verbose_name='Описание')
     created_at = models.DateField(max_length=50, **NULLABLE, verbose_name='Дата создания', auto_now_add=True)
@@ -18,6 +19,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    """Модель продукта"""
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(max_length=300, **NULLABLE, verbose_name='Описание')
     preview = models.ImageField(upload_to='images/', **NULLABLE, verbose_name='Изображение')
@@ -35,6 +37,7 @@ class Product(models.Model):
 
 
 class Blog(models.Model):
+    """Модель блога"""
     title = models.CharField(max_length=200, verbose_name='Заголовок')
     slug = models.CharField(max_length=200, verbose_name='slug', **NULLABLE)
     content = models.TextField(verbose_name='Cодержимое')
