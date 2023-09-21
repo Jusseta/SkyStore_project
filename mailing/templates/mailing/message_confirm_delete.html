@@ -12,9 +12,9 @@
 <div class="col-12">
     <form method="post">
             {% csrf_token %}
-            <p> Уверены, что хотите удалить статью "{{  object.title }}"?</p>
+            <p> Уверены, что хотите удалить рассылку "{{ object.theme }}"?</p>
             <button type="submit" class="btn btn-outline-danger">Удалить</button>
-            <a href='{%  url "catalog:blog_detail" object.pk %}' class="btn btn-outline-success">Отмена</a>
+            <a href='{%  url "mailing:mail_list" %}' class="btn btn-outline-success">Отмена</a>
 
     </form>
 </div>
