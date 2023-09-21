@@ -1,8 +1,11 @@
+from django.forms import inlineformset_factory
 from pytils.translit import slugify
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from catalog.models import Category, Product, Blog
+
+from catalog.forms import ProductForm, VersionForm
+from catalog.models import Category, Product, Blog, Version
 
 
 class HomeView(TemplateView):
@@ -42,6 +45,43 @@ class ProductListView(ListView):
         context_data['category_pk'] = category_item.pk,
         context_data['title'] = f'Цветы сорта {category_item.name}'
         return context_data
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:categories')
+    extra_context = {'heading': 'Добавить цветок'}
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    extra_context = {'heading': 'Изменить цветок'}
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm)
+        if self.request.method == 'POST':
+            formset = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            formset = VersionFormset(instance=self.object)
+
+        context_data['formset'] = formset
+        return context_data
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('catalog:flower_detail', args=(self.object.id,))
 
 
 class ProductsDetailView(DetailView):

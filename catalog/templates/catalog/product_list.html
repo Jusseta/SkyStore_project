@@ -11,6 +11,9 @@
 {% endblock %}
 
 {% block content %}
+      <div class="col-12 mb-5">
+        <a href="{%  url 'catalog:add_flower' %}" class="btn btn-outline-primary">Добавить цветок</a>
+      </div>
       <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         {% for object in object_list %}
         <div class="col">
