@@ -15,6 +15,11 @@
         <a href='{% url "catalog:home" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Главная</a>
         <a href='{% url "catalog:categories" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Каталог</a>
         <a href='{% url "catalog:blogs" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Блог</a>
+        {% if user.is_authenticated %}
+          <a href='{% url "users:logout" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Выход</a>
+        {% else %}
+          <a href='{% url "users:login" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Вход</a>
+        {% endif %}
         <a href='{% url "mailing:mail_list" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Рассылки</a>
         <a href='{% url "catalog:contacts" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Контакты</a>
       </nav>
