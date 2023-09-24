@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from pytils.translit import slugify
 from django.shortcuts import render
@@ -47,14 +48,20 @@ class ProductListView(ListView):
         return context_data
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:categories')
     extra_context = {'heading': 'Добавить цветок'}
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
-class ProductUpdateView(UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     extra_context = {'heading': 'Изменить цветок'}
@@ -127,7 +134,7 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     """Создание новой статьи"""
     model = Blog
     fields = ('title', 'content', 'is_published',)
@@ -135,6 +142,9 @@ class BlogCreateView(CreateView):
     extra_context = {'heading': 'Создание статьи'}
 
     def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
         if form.is_valid():
             new_mat = form.save()
             new_mat.slug = slugify(new_mat.title)
@@ -142,7 +152,7 @@ class BlogCreateView(CreateView):
         return super().form_valid(form)
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     """Изменение существующей статьи"""
     model = Blog
     fields = ('title', 'content', 'is_published',)
@@ -159,7 +169,7 @@ class BlogUpdateView(UpdateView):
         return reverse_lazy('catalog:blog_detail', args=(self.object.id,))
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     """Удаление статьи"""
     model = Blog
     success_url = reverse_lazy('catalog:blogs')
