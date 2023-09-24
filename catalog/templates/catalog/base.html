@@ -19,6 +19,7 @@
           <a href='{% url "users:logout" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Выход</a>
         {% else %}
           <a href='{% url "users:login" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Вход</a>
+          <a href='{% url "users:register" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Регистрация</a>
         {% endif %}
         <a href='{% url "mailing:mail_list" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Рассылки</a>
         <a href='{% url "catalog:contacts" %}' class="me-3 py-2 link-body-emphasis text-decoration-none">Контакты</a>
