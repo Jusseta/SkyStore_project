@@ -54,6 +54,12 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('catalog:categories')
     extra_context = {'heading': 'Добавить цветок'}
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
@@ -136,6 +142,9 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
     extra_context = {'heading': 'Создание статьи'}
 
     def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
         if form.is_valid():
             new_mat = form.save()
             new_mat.slug = slugify(new_mat.title)
