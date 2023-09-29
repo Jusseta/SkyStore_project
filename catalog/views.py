@@ -1,12 +1,15 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from pytils.translit import slugify
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.core.cache import cache
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Category, Product, Blog, Version
+from catalog.services import get_category_cache
 
 
 class HomeView(TemplateView):
@@ -15,7 +18,7 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['object_list'] = Category.objects.all()[:3]
+        context_data['object_list'] = get_category_cache()[:3]
         return context_data
 
 
@@ -28,6 +31,12 @@ class CategoryListView(ListView):
     """Страница со списком категорий"""
     model = Category
     extra_context = {'title': 'Все виды цветов'}
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['object_list'] = get_category_cache()
+
+        return context_data
 
 
 class ProductListView(ListView):
