@@ -33,7 +33,7 @@ class RegisterView(CreateView):
             self.object.save()
             send_mail(
                 subject='Верификация пользователя',
-                message=f'Верификация пользователя пройдите по ссылке http://127.0.0.1:8000/users/verify_{self.object.token}',
+                message=f'Для завершения регистрации пройдите по ссылке http://127.0.0.1:8000/users/verify_{self.object.token}',
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[self.object.email]
             )
@@ -43,5 +43,5 @@ class RegisterView(CreateView):
 def verify(request, key):
     user_item = get_object_or_404(User, token=key)
     user_item.is_active = True
-    user_item.save()
+    user_item.save(update_fields=['is_active'])
     return render(request, 'users/verify_message.html')
